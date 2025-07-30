@@ -1,0 +1,3 @@
+window.meta?.product?.variants?.forEach(v => {
+    console.log(`Variant: ${v.name}, ID: ${v.id}`);
+});
