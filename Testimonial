@@ -1,0 +1,318 @@
+//This is testimonial use case
+
+
+const targetElement = '.product__title'
+
+function waitForElements(selector) {
+    return new Promise(resolve => {
+        const interval = setInterval(() => {
+            const els = document.querySelectorAll(selector);
+            if (els.length) {
+                clearInterval(interval);
+                resolve(els);
+            }
+        }, 50);
+    });
+}
+
+
+function kiddieSlider(){
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css'
+
+    link.onload = function(){
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js';
+        script.onload = function() {
+            initializeSplide();
+        }
+        script.onerror = function(){
+            console.log('body splide script not loaded');;
+        }
+
+        document.body.appendChild(script);
+    }
+
+    link.onerror = function(){
+        console.log('head splide css not loaded');
+    }
+
+    document.head.appendChild(link);
+}
+
+function initializeSplide(){
+
+    const HTMLELEMENTS = {
+        splideDiv :
+        `
+         <div class="splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                <li class="splide__slide">
+                    <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        This product completely changed my routine. I've been using it for a month now and the results are amazing! Highly recommend to anyone looking for quality.
+                    </p>
+                    <div class="rating">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#E0E0E0">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <span class="score">(4 / 5)</span>
+                    </div>
+                    <div class="author">
+                        <img class="avatar" src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah Johnson">
+                        <div class="author-name">Sarah Johnson</div>
+                    </div>
+                    </div>
+                </li>
+                
+                <li class="splide__slide">
+                    <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        Excellent customer service and fast shipping. The product itself is well-made and durable. Will definitely purchase again in the future.
+                    </p>
+                    <div class="rating">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <span class="score">(5 / 5)</span>
+                    </div>
+                    <div class="author">
+                        <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
+                        <div class="author-name">Michael Chen</div>
+                    </div>
+                    </div>
+                </li>
+                
+                <li class="splide__slide">
+                    <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        Good value for the price. It does what it promises, though it took a bit longer to see results than I expected. Still satisfied with my purchase.
+                    </p>
+                    <div class="rating">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#E0E0E0">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#E0E0E0">
+                        <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+                        </svg>
+                        <span class="score">(3 / 5)</span>
+                    </div>
+                    <div class="author">
+                        <img class="avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Emily Rodriguez">
+                        <div class="author-name">Emily Rodriguez</div>
+                    </div>
+                    </div>
+                </li>
+                </ul>
+            </div>
+            </div>
+        `,
+
+        style:
+        `
+            <style>
+            .splide {
+                width: 80%;
+                margin: 50px auto;
+            }
+      
+            @media only screen and (max-width: 600px) {
+            .splide__slide {
+                text-align: center;
+                height: auto !important;
+                width: 100% !important;
+                radius: 8px;
+                padding: 0;
+                margin: 0 !important;
+                gap: 8px;
+            }
+
+            .testimonial-card{
+                height: auto !important;
+            }
+            .testimonial-text{
+                font-size: 11.25px !important
+                }
+            }
+
+            .splide__slide {
+                text-align: center;
+                height: auto !important;
+                width: 100%;
+                radius: 8px;
+                padding: 16px;
+                gap: 8px;
+            }
+
+            .avatar{
+                width: 26px !important;
+                height: 26px !important;
+            }
+
+            .testimonial-text{
+                text-align: left !Important;
+            }
+
+            /* Arrow Styles */
+            .splide__arrow {
+                color: #3A63EB !important;
+                padding: 10px;
+                font-size: 20px;
+                background: #E3E7F5 !important;
+                border-radius: 6px !important;
+            }
+
+            .splide__arrow:disabled {
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+            .splide__arrow--prev{
+                left: -35px !important;
+            }
+            .splide__arrow--next{
+                right: -35px !important;
+            }
+
+            /* exact match */
+            .testimonial-card {
+                width: auto;
+                height: auto !important;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                background: #fff;
+                box-shadow: 0 3px 18.75px rgba(0,0,0,0.15);
+                border-radius: 8px;
+                box-sizing: border-box;
+                font-family: system-ui, sans-serif;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+      
+            .testimonial-text {
+                margin: 0 0 8px;
+                font-size: 14px;
+                line-height: 16.5px;
+                color: #767676 !important;
+            }
+
+            .splide__pagination{
+                display: none !important;
+            }
+      
+            .rating {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                margin-bottom: auto;
+            }
+            
+            .rating .score {
+                font-size: 12px;
+                color: #444;
+                margin-left: 4px;
+            }
+            
+            .author {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-top: 8px;
+            }
+            
+            .avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            
+            .author-name {
+                font-size: 14px;
+                color: #444;
+            }
+            </style>
+        `
+    }
+
+    document.head.insertAdjacentHTML('beforeend', HTMLELEMENTS.style);
+
+    var targetElementWithDocument = document.querySelector('.product__title');
+    
+    targetElementWithDocument.insertAdjacentHTML('beforebegin', HTMLELEMENTS.splideDiv);
+
+
+    var splide = new Splide('.splide', {
+        type: 'loop',         
+        perPage: 1,           
+        perMove: 1,          
+        gap: '1rem',          
+        pagination: false,    
+        arrows: true,         
+        interval: 5000,       
+        pauseOnHover: true,  
+        pauseOnFocus: true,   
+        speed: 600           
+    }).mount();
+
+    splide.on('moved', function() {
+          const prevButton = splide.Components.Arrows.prev;
+          const nextButton = splide.Components.Arrows.next;
+
+          if (splide.index === 0) {
+              prevButton.setAttribute('disabled', 'true');
+          } else {
+              prevButton.removeAttribute('disabled');
+          }
+
+          if (splide.index === splide.length - 1) {
+              nextButton.setAttribute('disabled', 'true');
+          } else {
+              nextButton.removeAttribute('disabled');
+          }
+      });
+
+      splide.emit('moved');
+
+
+}
+
+
+
+kiddieSlider();
