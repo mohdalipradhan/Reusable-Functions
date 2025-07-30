@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splide Carousel</title>
+
+    <!-- Splide.js Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+
+    <style>
+              /* Basic Styling for Carousel */
+              .splide {
+                  width: 80%;
+                  margin: 50px auto;
+              }
+            @media only screen and (max-width: 600px) {
+                  .splide__slide {
+                      text-align: center;
+                      height: auto !important;
+                      width: 100% !important;
+                      radius: 8px;
+                      padding: 0;
+                      margin: 0 !important;
+                      gap: 8px;
+                  }
+
+             
+
+                  .testimonial-card{
+                    height: auto !important;
+                  }
+                  .testimonial-text{
+                    font-size: 11.25px !important
+                  }
+             
+              }
+
+              .splide__slide {
+                  text-align: center;
+                  height: auto !important;
+                  width: 246px;
+                  radius: 8px;
+                  padding: 16px;
+                  gap: 8px;
+              }
+
+              .avatar{
+                width: 26px !important;
+                height: 26px !important;
+              }
+
+              .testimonial-text{
+                text-align: left !Important;
+              }
+
+              /* Arrow Styles */
+              .splide__arrow {
+                  /* background: none !important; */
+                  /* border: 2px solid #00AA6C; */
+                  color: #3A63EB !important;
+                  padding: 10px;
+                  font-size: 20px;
+                  background: #E3E7F5 !important;
+                  border-radius: 6px !important;
+              }
+
+              .splide__arrow:disabled {
+                  opacity: 0.5;
+                  pointer-events: none;
+              }
+
+              /* Ensure carousel images fill the container */
+              .splide__slide img {
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 10px;
+              }
+
+              .splide__arrow--prev{
+                left: -35px !important;
+              }
+              .splide__arrow--next{
+                right: -35px !important;
+              }
+
+                    /* exact match */
+              .testimonial-card {
+                  width: auto;
+                  height: auto !important;
+                  padding: 16px;
+                  display: flex;
+                  flex-direction: column;
+                  background: #fff;
+                  box-shadow: 0 3px 18.75px rgba(0,0,0,0.15);
+                  border-radius: 8px;
+                  box-sizing: border-box;
+                  font-family: system-ui, sans-serif;
+              }
+              
+              .testimonial-text {
+                  margin: 0 0 8px;
+                  font-size: 14px;
+                  line-height: 16.5px;
+                  color: #767676 !important;
+              }
+
+              .splide__pagination{
+                display: none !important;
+              }
+              
+              .rating {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                margin-bottom: auto;
+              }
+              
+              .rating .score {
+                font-size: 12px;
+                color: #444;
+                margin-left: 4px;
+              }
+              
+              .author {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-top: 8px;
+              }
+              
+              .avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+              }
+              
+              .author-name {
+                font-size: 14px;
+                color: #444;
+              }
+
+    </style>
+  </head>
+  <body>
+    <!-- Splide Carousel -->
+
+    <li class="splide__slide">
+        <!-- HTML -->
+<div class="testimonial-card">
+  <p class="testimonial-text">
+    {{ contentreview }}
+  </p>
+ <div class="rating">
+  <!-- Convert the review count (string) to an integer and round it -->
+  {% assign reviewcount_int = reviewcount | times: 1 | round %}
+  
+  <!-- Loop to display filled stars based on the review count -->
+  {% for i in (1..reviewcount_int) %}
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#2FA25F">
+      <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+    </svg>
+  {% endfor %}
+
+  <!-- Calculate remaining stars and loop to display empty stars for the remaining ones -->
+  {% assign remaining_stars = 5 | minus: reviewcount_int %}
+  {% for i in (1..remaining_stars) %}
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#E0E0E0">
+      <path d="M12 .587l3.668 7.431L24 9.588l-6 5.846L19.335 24 12 19.897 4.665 24 6 15.434 0 9.588l8.332-1.57z"/>
+    </svg>
+  {% endfor %}
+
+  <span class="score">({{ reviewcount }} / 5)</span>
+</div>
+
+
+  <div class="author">
+    <img class="avatar" src="{{ image | img_url: 'original' }}" alt="{{ image.alt | escape }}">
+    <div class="author-name">{{ authortext }}</div>
+  </div>
+</div>
+
+    </li>
+    <!--
+      <li class="splide__slide"><img src="https://i.postimg.cc/3rDsxbLp/ezgif-com-optimize.gif" alt="Image 1"></li>
+    -->
+        <!-- <li class="splide__slide"><img src="{{ image | img_url: 'large' }}" alt="Carousel Image"></li> -->
+
+
+    <!-- Splide.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+    <script>
+      // Initialize the Splide carousel
+      var splide = new Splide('.splide', {
+          perPage    : 1,           // Show 1 item per page
+          gap        : '1rem',      // Gap between items
+          pagination: true,         // Show pagination dots
+          arrows     : true,        // Show arrows for navigation
+      }).mount();
+
+      // Disable the arrows on the first and last slide
+      splide.on('moved', function() {
+          const prevButton = splide.Components.Arrows.prev;
+          const nextButton = splide.Components.Arrows.next;
+
+          // Disable the previous button on the first slide
+          if (splide.index === 0) {
+              prevButton.setAttribute('disabled', 'true');
+          } else {
+              prevButton.removeAttribute('disabled');
+          }
+
+          // Disable the next button on the last slide
+          if (splide.index === splide.length - 1) {
+              nextButton.setAttribute('disabled', 'true');
+          } else {
+              nextButton.removeAttribute('disabled');
+          }
+      });
+
+      // Initial check on page load
+      splide.emit('moved');
+    </script>
+  </body>
+</html>
