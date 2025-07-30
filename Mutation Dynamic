@@ -1,0 +1,14 @@
+const newMutationObservor = new MutationObserver(mutations => {
+    if (mutations.some(m => m.addedNodes.length)){
+        waitForElements(targetElement).then(() => {
+            init();
+        });
+    }
+})
+
+newMutationObservor.observe(document.body, 
+    {
+        childList: true,
+        sublist: true,
+    }
+)
