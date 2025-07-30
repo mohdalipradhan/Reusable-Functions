@@ -1,0 +1,28 @@
+function addMultipleToCartWithDrawer(items) {
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ items })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log('Items added:', data);
+      document.dispatchEvent(new CustomEvent('cart:refresh', { detail: data }));
+      if (window.Shopify && window.Shopify.theme && typeof window.Shopify.theme.cartDrawer === 'function') {
+        window.Shopify.theme.cartDrawer();
+      }
+    })
+    .catch(err => {
+      console.error('Failed to add items:', err);
+    });
+  }
+  
+  // Add the three variants to the cart
+  addMultipleToCartWithDrawer([
+    { id: 40313402065076, quantity: 1 },  // var 1
+    { id: 43614820008184, quantity: 1 },  // var 2
+    { id: 46283762499832, quantity: 1 }   // var 3
+  ]);
+  
