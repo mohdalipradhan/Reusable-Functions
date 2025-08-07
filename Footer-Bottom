@@ -1,0 +1,216 @@
+function wetSeatFooter() {
+    // Track if we've already added the footer to avoid duplicates
+    let footerAdded = false;
+
+    function checkScroll() {
+        // Calculate 10% of the document height
+        const scrollThreshold = document.body.scrollHeight * 0.1;
+        const currentScroll = window.scrollY || document.documentElement.scrollTop;
+
+        if (currentScroll >= scrollThreshold && !footerAdded) {
+            addFooter();
+            footerAdded = true;
+        } else if (currentScroll < scrollThreshold && footerAdded) {
+            removeFooter();
+            footerAdded = false;
+        }
+    }
+
+    function addFooter() {
+        //Lets get the image here 
+        function getFirstImageFromSlider() {
+            const getFirstImageOfItem = document.querySelector('ol.carousel-indicators li.active img');
+
+            if (getFirstImageOfItem) {
+                const imageURL = getFirstImageOfItem.getAttribute('src');
+                return imageURL;
+            } else {
+                return null;
+            }
+        }
+
+        const firstImage = getFirstImageFromSlider();
+        //End getting first image from the carousel
+
+
+        //Will get the content from the heading from here.
+        function getTitleFromProductPage() {
+            const titleElement = document.querySelector('.wrapper-product-title h1.font-weight-bold');
+            const productTitle = titleElement ? titleElement.textContent.trim() : 'Title not found';
+            return productTitle;
+        }
+
+        const titleheading = getTitleFromProductPage();
+        //End getting content from the heading from here. 
+
+        const HTMLTEMPLATE = {
+            footer:
+                `
+                <div class="parent_content_img" id="customProductFooter">
+                    <div class="sub_content_img">
+                        <img src="${firstImage || ''}" alt="Product image">
+
+                        <span>${titleheading || ''}</span>
+                        
+                    </div>
+
+                    <div class="button_a_b">
+                        <input type="number" id="quantity_selector" name="quantity" value="1">
+                        <button onclick="clickAddToCart()" id="add_to_cart_custom" class="atc_custom">Add to Cart</button>
+                    </div>
+                </div>
+            `,
+
+            css:
+                `
+                <style>
+                    .parent_content_img {
+                        position: fixed;
+                        bottom: 0;
+                        width: 100%;
+                        background: #2E3192;
+                        z-index: 999;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #FFFFFF;
+                        height: auto;
+                        padding: 20px 114px 20px 114px;
+                        justify-content: space-between;
+                    }
+
+                    .sub_content_img img {
+                        width: 50px;
+                        height: 50px;
+                    }
+
+                    .sub_content_img{
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                    }
+
+                    .sub_content_img span {
+                        height: 100%;
+                        font-size: 20px;
+                        font-weight: 700;
+                        line-height: 27px;
+                        width: 497px;
+                        gap: 16px;
+                    }
+
+                    .button_a_b input {
+                        height: 46px;
+                        background: #43469d;
+                        border: 1px solid #FFFFFF1A;
+                        width: 153px;
+                        border-radius: 5px;
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                    }
+
+                    .button_a_b button{
+                        height: 46px;
+                        width: 196px;
+                        border: none;
+                        border-radius: 5px;
+                    }
+
+                    #quantity_selector::-webkit-outer-spin-button,
+                        #quantity_selector::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                        }
+
+                        #quantity_selector[type="number"] {
+                        -moz-appearance: textfield; /* For Firefox */
+                        appearance: textfield; /* For modern browsers */
+                        }
+
+                    .button_a_b{
+                        display: flex;
+                        gap: 10px;
+                        justify-content: space-around;
+                    }
+
+                    @media only screen and (max-width: 800px) {
+                        .parent_content_img {
+                            padding: 20px 15px !important;
+                            flex-direction: column !important;
+                            gap: 20px;
+                        }
+
+                        .sub_content_img span {
+                            width: auto !important;
+                        }
+
+                        .sub_content_img {
+                            align-items: flex-start !important;
+                        }
+
+                        .sub_content_img img {
+                            width: 65px !important;
+                            height: 65px !important;
+                        }
+
+                        .button_a_b input {
+                            width: 153px !important;
+                        }
+
+                        .button_a_b button {
+                            height: 45px !important;
+                        }
+                    }
+
+                </style>
+            `
+        }
+
+        document.body.insertAdjacentHTML('beforeend', HTMLTEMPLATE.footer);
+        document.head.insertAdjacentHTML('beforeend', HTMLTEMPLATE.css);
+
+        //These are Quantity Manipulations
+        const quantityInput = document.getElementById('quantity_selector');
+
+        quantityInput.addEventListener('input', function (event) {
+            changeQuantity(this.value);
+        });
+
+        function changeQuantity(valueOfQnt) {
+            const qtyInput = document.querySelector('input[id^="qty"][name="qty"]');
+            if (qtyInput) {
+                qtyInput.value = valueOfQnt;
+                qtyInput.dispatchEvent(new Event('change'));
+            }
+        }
+
+        window.clickAddToCart = function () {
+            const addToCartBtn = document.querySelector('button.addtocart.btn-ajax-loads');
+            if (addToCartBtn) {
+                addToCartBtn.click();
+                console.log('Clicked:', addToCartBtn.title.match(/Add (.*?) to Cart/)[1] || 'Add to Cart');
+            } else {
+                console.error('Add to Cart button not found!');
+            }
+        }
+        //End Of Manipulations
+    }
+
+    function removeFooter() {
+        const footer = document.getElementById('customProductFooter');
+        if (footer) {
+            footer.remove();
+        }
+    }
+
+    // Initial check in case we're already scrolled down
+    checkScroll();
+    
+    // Add scroll event listener
+    window.addEventListener('scroll', checkScroll);
+}
+
+wetSeatFooter();
