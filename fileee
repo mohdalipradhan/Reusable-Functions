@@ -1,0 +1,38 @@
+  function addShippingText() {
+    const sizeSelector = document.querySelector(".size-selector");
+    if (sizeSelector && !document.querySelector(".ab-test-shipping-text")) {
+      const container = document.createElement("div");
+      container.className = "ab-test-shipping-text";
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.marginTop = "8px"; // spacing below size-selector
+      container.style.fontSize = "14px";
+      container.style.color = "#333";
+      container.style.justifyContent = "center";
+
+      // green circle
+      const circle = document.createElement("span");
+      circle.style.width = "8px";
+      circle.style.height = "8px";
+      circle.style.borderRadius = "50%";
+      circle.style.backgroundColor = "green";
+      circle.style.display = "inline-block";
+      circle.style.marginRight = "6px";
+
+      // get today's date
+      const today = new Date();
+      const options = { weekday: "short", month: "short", day: "numeric" };
+      const formattedDate = today.toLocaleDateString("en-US", options);
+
+      // text with bold date
+      const text = document.createElement("span");
+      text.innerHTML = `Ships <strong>${formattedDate}</strong> 🇺🇸 from Tampa, FL`;
+
+      container.appendChild(circle);
+      container.appendChild(text);
+
+      sizeSelector.insertAdjacentElement("afterend", container);
+      return true;
+    }
+    return false;
+  }
